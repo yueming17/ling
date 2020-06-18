@@ -1,0 +1,43 @@
+<!-- 模态框（Modal） -->
+<div th:fragment="profileEdit" class="modal fade bs-example-modal-lg" id="profileEditModal" tabindex="-1"
+	role="dialog" aria-labelledby="profileEditLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="userEditLabel"
+					style="font-size: 18px; font-weight: 500;">User Edit</h4>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<input type="hidden" id="userId" name="userId" value=""/>
+					<div class="form-group row">
+						<label class="control-label col-md-3">User Name</label>
+						<div class="col-md-8">
+							<input id="userName" name="userName" class="form-control" 
+								type="text" placeholder="Enter user name">
+						</div>
+					</div>
+						<div class="form-group row">
+						<label class="control-label col-md-3">User Image</label>
+						<div class="col-md-8">
+							<input id="userImage" name="userImage" type="hidden" value="" />
+							<input id="uploadImageFile" name="userImage" type="file" multiple=true>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<!-- data-dismiss="modal"关闭模态框 -->
+				<a class="btn btn-secondary" href="#" data-dismiss="modal">
+					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
+				</a>
+				<button id="profileEditBtn" data-dismiss="modal" 
+					class="btn btn-primary" type="button">
+					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
