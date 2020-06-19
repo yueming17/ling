@@ -1,8 +1,11 @@
 package com.hqyj.SpringBootDemo.modules.account.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
+import com.hqyj.SpringBootDemo.modules.account.entity.Role;
 import com.hqyj.SpringBootDemo.modules.account.entity.User;
 import com.hqyj.SpringBootDemo.modules.common.vo.Result;
 import com.hqyj.SpringBootDemo.modules.common.vo.SearchVo;
@@ -23,4 +26,6 @@ public interface UserService {
 	Result<String> updateUserFile(MultipartFile userImage);
 
 	Result<User> editProfile(User user);
+	
+	void loginout();
 }

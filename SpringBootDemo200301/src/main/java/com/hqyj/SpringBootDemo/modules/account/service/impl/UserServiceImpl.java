@@ -9,6 +9,9 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,7 @@ import com.hqyj.SpringBootDemo.utils.MD5Util;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRoleDao userRoleDao;
-	
+
 	@Autowired
 	private ResourceConfigBean resourceConfigBean;
 
@@ -50,12 +53,24 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Result<User> login(User user) {
-		User userTemp = userDao.getUserByUserName(user.getUserName());
-		if (userTemp == null || !userTemp.getPassword().equals(MD5Util.getMD5(user.getPassword()))) {
+//		User userTemp = userDao.getUserByUserName(user.getUserName());
+//		if (userTemp == null || !userTemp.getPassword().equals(MD5Util.getMD5(user.getPassword()))) {
+//			return new Result<User>(ResultStatus.FAILD.status, "User name or password error.");
+//		} else {
+//			return new Result<User>(ResultStatus.SUCCESS.status, "Login success.", userTemp);
+//		}
+		try {
+			Subject subject = SecurityUtils.getSubject();
+			UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),
+					MD5Util.getMD5(user.getPassword()));
+			subject.login(token);
+			token.setRememberMe(user.getRememberMe());
+			subject.checkRoles();
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new Result<User>(ResultStatus.FAILD.status, "User name or password error.");
-		} else {
-			return new Result<User>(ResultStatus.SUCCESS.status, "Login success.", userTemp);
 		}
+		return new Result<User>(ResultStatus.SUCCESS.status, "Login success.", user);
 	}
 
 	@Override
@@ -106,16 +121,16 @@ public class UserServiceImpl implements UserService {
 		if (userImage.isEmpty()) {
 			return new Result<String>(ResultStatus.SUCCESS.status, "file upload fialed.");
 		}
-		//判断上传的文件类型
+		// 判断上传的文件类型
 		if (!FileUtil.isImage(userImage)) {
 			return new Result<String>(ResultStatus.SUCCESS.status, "File is not a image");
 		}
 		String originalFilename = userImage.getOriginalFilename();
-		//相对路径
-		String relatedPath = resourceConfigBean.getResourcePath()+originalFilename;
-		//本地路径
-		String localPath = String.format("%s%s",resourceConfigBean.getLocalPathForWindow(), originalFilename);
-		
+		// 相对路径
+		String relatedPath = resourceConfigBean.getResourcePath() + originalFilename;
+		// 本地路径
+		String localPath = String.format("%s%s", resourceConfigBean.getLocalPathForWindow(), originalFilename);
+
 		File destFile = new File(localPath);
 		try {
 			userImage.transferTo(destFile);
@@ -139,4 +154,10 @@ public class UserServiceImpl implements UserService {
 		return new Result<User>(ResultStatus.SUCCESS.status, "Edit success.", user);
 	}
 
+	@Override
+	public void loginout() {
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+	}
+   
 }

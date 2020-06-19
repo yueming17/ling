@@ -77,7 +77,7 @@ public class CityController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/city/2258 ---- delete
+	 * 127.0.0.1/api/city/2259---- delete
 	 */
 	@DeleteMapping("/city/{cityId}")
 	public Result<Object> deleteCity(@PathVariable int cityId) {

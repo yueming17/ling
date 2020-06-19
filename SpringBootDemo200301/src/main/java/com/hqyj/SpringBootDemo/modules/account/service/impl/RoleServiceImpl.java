@@ -66,4 +66,11 @@ public class RoleServiceImpl implements RoleService {
 		roleDao.deleteRole(roleId);
 		return new Result<Object>(ResultStatus.SUCCESS.status, "delete success.");
 	}
+
+	@Override
+	public List<Role> getRolesByUserId(int userId) {
+		return roleDao.getRolesByUserId(userId);
+	}
+	
+	
 }

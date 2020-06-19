@@ -19,4 +19,6 @@ public interface RoleService {
 	Result<Role> edit(Role role);
 	
 	Result<Object> deleteRole(int roleId);
+	
+	List<Role> getRolesByUserId(int userId);
 }

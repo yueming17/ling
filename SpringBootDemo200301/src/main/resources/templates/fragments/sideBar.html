@@ -24,8 +24,8 @@
 		<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 			<div class="menu_section">
 				<ul class="nav side-menu">
-					<li>
-						<a href="javascript:void(0)">
+					<li shiro:hasAnyRoles="boos,manager,common,staff">
+						<a href="/common/dashboard">
 							<i class="fa fa-dashboard"></i>
 							Dashboard
 						</a>
@@ -37,21 +37,21 @@
 							<span class="fa fa-chevron-down"></span>
 						</a>
 						<ul class="nav child_menu">
-							<li>
+							<li shiro:hasAnyRoles="boos,admin">
 								<a href="/account/users">Users</a>
 							</li>
-							<li>
+							<li shiro:hasAnyRoles="boos,admin,manager" >
 								<a href="/account/roles">Roles</a>
 							</li>
-							<li>
+							<li shiro:hasAnyRoles="boos,admin,manager">
 								<a href="/account/resources">Resources</a>
 							</li>
-							<li>
+							<li shiro:hasAnyRoles="boos,admin,manager,staff">
 								<a href="/account/profile">Profile</a>
 							</li>
 						</ul>
 					</li>
-					<li>
+					<li shiro:hasAnyRoles="boos,admin,manager,common,staff">
 						<a href="/test/index">
 							<i class="fa fa-laptop"></i>
 							Test
