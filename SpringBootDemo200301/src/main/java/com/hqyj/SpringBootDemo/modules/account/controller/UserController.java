@@ -1,6 +1,9 @@
 package com.hqyj.SpringBootDemo.modules.account.controller;
 
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +31,7 @@ public class UserController {
 	 * 127.0.0.1/api/user
 	 */
 	@PostMapping(value = "/user", consumes = "application/json")
+	@RequiresRoles(value={"admin","boss"}, logical=Logical.AND)
 	public Result<User> insertUser(@RequestBody User user) {
 		return userService.edit(user);
 	}
@@ -54,6 +58,7 @@ public class UserController {
 	 * 127.0.0.1/api/user
 	 */
 	@DeleteMapping("/user/{userId}")
+	@RequiresPermissions(value={"/api/user","insert"}, logical= Logical.OR)
 	public Result<Object> deleteUserByUserId(@PathVariable int userId) {
 		return userService.deleteUserByUserId(userId);
 	}

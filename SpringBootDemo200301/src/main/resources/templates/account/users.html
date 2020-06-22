@@ -164,6 +164,7 @@ function deleteRole(userId){
 						initTable(DEFAULT_PAGE_SIZE);
 					} else {
 						layer.msg(data.message, {icon: 0});
+						window.location.href = data.object;
 					}
 				},
 				error : function (data) {
@@ -251,6 +252,7 @@ function insertUser() {
 				initTable(DEFAULT_PAGE_SIZE);
 			} else {
 				layer.msg(data.message, {icon: 0});
+				window.location.href = data.object;
 			}
 		},
 		error : function (data) {

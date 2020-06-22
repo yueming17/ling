@@ -21,16 +21,15 @@ import com.hqyj.SpringBootDemo.modules.account.service.ResourceService;
 import com.hqyj.SpringBootDemo.modules.account.service.RoleService;
 import com.hqyj.SpringBootDemo.modules.account.service.UserService;
 
-
 @Component
 public class MyRealm extends AuthorizingRealm {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private ResourceService resourceService;
 
@@ -41,18 +40,17 @@ public class MyRealm extends AuthorizingRealm {
 		if (user == null) {
 			throw new UnknownAccountException("This user name do not exist.");
 		}
-		
+
 		// 身份验证器，包装用户名和密码
-		return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
+		return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
 	}
-	
+
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		
+
 		SimpleAuthorizationInfo simpleInfo = new SimpleAuthorizationInfo();
 
-		String userName = (String)principals.getPrimaryPrincipal();
-		User user = userService.getUserByUserName(userName);
+		User user = (User) principals.getPrimaryPrincipal();
 		if (user == null) {
 			throw new UnknownAccountException("This user name do not exist.");
 		}
@@ -66,6 +64,5 @@ public class MyRealm extends AuthorizingRealm {
 		}
 		return simpleInfo;
 	}
-
 
 }

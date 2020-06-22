@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Result<User> login(User user) {
+//未使用shiro登录时的逻辑
 //		User userTemp = userDao.getUserByUserName(user.getUserName());
 //		if (userTemp == null || !userTemp.getPassword().equals(MD5Util.getMD5(user.getPassword()))) {
 //			return new Result<User>(ResultStatus.FAILD.status, "User name or password error.");
@@ -61,11 +63,15 @@ public class UserServiceImpl implements UserService {
 //		}
 		try {
 			Subject subject = SecurityUtils.getSubject();
-			UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),
+			UsernamePasswordToken usernamePasswordToken  = new UsernamePasswordToken(user.getUserName(),
 					MD5Util.getMD5(user.getPassword()));
-			subject.login(token);
-			token.setRememberMe(user.getRememberMe());
+			usernamePasswordToken.setRememberMe(user.getRememberMe());
+			subject.login(usernamePasswordToken );
 			subject.checkRoles();
+			Session session = subject.getSession();
+			//需要将从数据库查询的user存入session，而传入只包括用户名和密码，解决方法：从身份验证器中获取user
+			User userTemp = (User) subject.getPrincipal();
+			session.setAttribute("user", userTemp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Result<User>(ResultStatus.FAILD.status, "User name or password error.");

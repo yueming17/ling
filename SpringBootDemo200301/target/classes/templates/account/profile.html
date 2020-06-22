@@ -344,7 +344,7 @@
 
 $(document).ready(function() {
 	initFileInput();
-	initEditModal(3);
+	initEditModal($("#userId").val());
 	$("#profileEditBtn").bind("click", function(){
 		editProfile();
 	});

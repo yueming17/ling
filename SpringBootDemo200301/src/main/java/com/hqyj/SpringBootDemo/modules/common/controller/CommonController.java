@@ -10,4 +10,9 @@ public class CommonController {
 	public String dashboardpage() {
 		return "index";
 	}
+	
+	@RequestMapping("/403")
+	public String errorPage403() {
+		return "index";
+	}
 }
