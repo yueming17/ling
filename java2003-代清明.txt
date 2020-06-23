@@ -103,7 +103,7 @@
                                 //
 		<table>
 			<th>roleId</th><th>roleName</th><th>userId</th>
-			<tr th:each="city : ${cities}">
+			<tr th:each="role : ${roles}">
 				<td th:text="${role.roleId}"></td>
 				<td th:text="${role.roleName}"></td>
 				<td th:text="${role.userId}"></td>
