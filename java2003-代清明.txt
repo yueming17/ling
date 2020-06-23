@@ -1,0 +1,134 @@
+﻿一、选择题（共12小题，每小题2.5分，共30分）
+	以下不是spring boot优点的是 (D)
+		A．快速搭建项目
+		B．简化配置  
+		C．自动配置  
+		D．无需容器
+	Spring Boot配置，以下哪个优先级最高（A）
+		A、外置：xx.jar同目录下/config/application.properties；
+		B、外置：xx.jar同目录下/config/application.yml；
+		C、内置：src/main/resources/config；
+		D、内置：src/main/resources
+	以下log日志级别哪个最高（D）
+		A、DEBUG
+		B、INFO
+		C、WARN
+		D、ERROR
+	以下不是spring boot的核心注解的是 (D)
+		A.	@SpringBootConfiguration
+		B.	@EnableAutoConfiguration
+		C.	@ComponentScan
+		D.	@MapperScan
+	要使用springMVC的功能，以下哪个架包是必须加的 (C)
+		A．spring-boot-starter-jdbc  
+		B．spring-boot-starter-thymeleaf  
+		C．spring-boot-starter-web  
+		D．mybatis-spring-boot-starter
+	以下哪个注解不能加在类上 (B)
+		A.	@Controller
+		B.	@ResponseBody
+		C.	@RestController
+		D.	@RequestMapping
+	当控制层上有@RestController注解时，方法中返回一个字符串“<h1>Hello</h1>” 的结果是 (A)
+		A. 一级标题显示的Hello
+		B.	找不到Hello.html
+		C.	<h1>Hello</>
+		D.	Hello
+	SpringBoot项目中配置文件的格式 (C)
+		A．properties  
+		B．yml  
+		C．两者都可以
+	前台使用json参数格式，控制器consumer、参数使用的注解是（A）
+		A、application/josn ---- @RequestBody
+		B、application/josn ---- @ModelAttribute
+		C、application/x-www-form-urlencoded ---- @RequestBody
+		D、application/x-www-form-urlencoded ---- @ModelAttribute
+	@Pointcut("execution(public * com.thornBird.sbd.modules.*.controller.*.*(..))")，第三个*代表（C）
+		A、代表返回类型不限
+		B、代表module下所有子包
+		C、代表所有类
+		D、代表所有方法
+	Url匹配风格中/admin*，以下哪个匹配不正确（D）
+		A、/admin
+		B、/admin1
+		C、/admin123
+		D、/admin/1
+	Mybatis框架中，插入数据使用那个注解（B）
+		A、@Update
+		B、@Insert
+		C、@Select
+		D、@InsertMapping
+二、填空题（共5小题，每小题5分，共25分）
+	Java配置依赖的2个注解是 @Configration, @Bean
+	修改tomcat端口号为9090应该怎么写？ server.port=9090
+	自定义拦截器需要实现__HandlerInterceptor______接口；
+	过滤器需要使用_____@WebFilter___注解；
+	上传文件，使用___MultipartFile_接收文件对象，consumer使用___multipart/form-data__；
+三、问答题（每题5分） ---- 参考
+	简述Spring
+		从Spring功能介绍：整合其他主流框架，快速搭建框架开发的Spring boot，支持微服务的Spring cloud，权限认证的Spring security，核心技术是ioc和aop；
+		通常情况我们依赖的对象需要new出来，进行管理与善后，这样对象与依赖对象就耦合在一起，但实际上我们并不是依赖对象本身，而是依赖它所提供的服务，只要在我们需要的时候，它提供服务就好，IOC通过 IOC Service Provider 进行对象的统一管理与维护，通俗讲，控制（IOC控制对象）反转（获取依赖对象的方式由主动创建变为由IOC创建注入），将配置文件进行解析，然后放到一个 Map 里面进行控制；
+		采用一种称为“横切”的技术，将涉及多业务流程的通用功能抽取并单独封装，形成独立的切面，在合适的时机将这些切面横向切入到业务流程指定的位置中，通过动态代理的方式实现，实现层面是方法级别 ---- 把用户登录功能抽取出来，形成独立的模块，当业务流程需要用户登录时，系统自动把登录功能切入到业务流程中；
+	简述Git使用流程，写几个常用Git命令；
+		git clone https://github.com/hymanHu/*****.git
+		git checkout develop
+		git branch
+		git status
+		git add src/main/java/***.java
+		git commit -m "***"
+		git push origin HEAD
+	简述敏捷开发、Scrum流程；
+		一种敏捷开发流程；
+		一个大的需求，预估工作量和时间。
+		计划会议，将任务细化成issue，每个issue的开发周期控制在1到2天，分派到个人头上；
+		根据每个任务创建父类分支，细化的issue提交到对应的分支上，每日做dailymerge。
+	简述shiro两大功能实现流程；
+		身份验证
+			用户 login ---- 包装令牌UsernamePasswordToken
+			获得 Subject 组件 ---- 调用 subject.login(usernamePasswordToken);  ---- myRealm身份验证 ---- 得到页面输入的用户名 ---- 根据用户名查询user ---- 返回身份验证器；
+			令牌和身份验证器比对；
+		资源授权
+			用户 login ---- 获得 Subject 组件 ---- 调用 subject.checkRoles();  ---- myRealm资源授权 ---- 得到页面输入的用户名 ---- 根据用户名查询user、roles、resources ---- 返回资源授权验证器；
+			在页面使用 shiro 标签 || 在控制器方法上使用 shiro 注解；
+			“标签”、“注解”和资源授权验证器比对；
+四、编程题（共2小题，1题12分，2题13分，共25分） ---- 参考
+	访问控制层，将一个List装入requset中，再在页面上以表格的形式显示出来
+		@RequestMapping("/roles")
+		public PageInfo<Role> getRolesByPageInfo(
+				@RequestParam int currentPage, 
+				@RequestParam int pageSize, 
+				@RequestParam int userId) {
+			return cityService.getCitiesByPage(currentPage, pageSize, userId) 
+		}
+                                //
+		<table>
+			<th>roleId</th><th>roleName</th><th>userId</th>
+			<tr th:each="city : ${cities}">
+				<td th:text="${role.roleId}"></td>
+				<td th:text="${role.roleName}"></td>
+				<td th:text="${role.userId}"></td>
+			</tr>
+		</table>
+	请写出重定向到某个页面的代码 ---- 以文件上传为例
+		@PostMapping(value = "/file", consumes = "multipart/form-data")
+	public String uploadFile(@RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
+		
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "Please select file");
+			return "redirect:/test/index";
+		}
+		
+		String resourcePath = resourceConfigBean.getResourcePath() + file.getOriginalFilename();
+		try {
+			File destFile = new File(ResourceUtils.getURL(resourcePath).getPath());
+			file.transferTo(destFile);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("message", "Upload fail.");
+			return "redirect:/test/index";
+		}
+		
+		redirectAttributes.addFlashAttribute("message", "Upload success.");
+		redirectAttributes.addFlashAttribute("resourcePath", resourcePath);
+		return "redirect:/test/index";
+	}
